@@ -18,9 +18,20 @@ import java.util.List;
 
 
 
+
+
+
+
+
+
+
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +48,9 @@ import com.mycoolweather.app.model.County;
 import com.mycoolweather.app.model.Province;
 import com.mycoolweather.app.util.HttpCallbackListener;
 import com.mycoolweather.app.util.HttpUtil;
+import com.mycoolweather.app.util.LogUtil;
+import com.mycoolweather.app.util.MyApplication;
+import com.mycoolweather.app.util.ProgressDialogUtils;
 import com.mycoolweather.app.util.Utility;
 
 public class ChooseAreaActivity extends Activity{
@@ -76,12 +90,31 @@ private City selectCity;
  * 当前选中的级别
  */
 private int currentLevel;
+
+private boolean isFromWeatherActivity;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onCreate(savedInstanceState);
+	initWeather();
 	setContentView(R.layout.choose_area);
 	initView();
+	
+}
+private void initWeather() {
+	// TODO Auto-generated method stub
+	isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
+	SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
+	LogUtil.d("city_selected", prefs.getBoolean("city_selected", false)+"");
+	if(prefs.getBoolean("city_selected", false)&&!isFromWeatherActivity){
+		Intent intent=new Intent(this,WeatherActivity.class);
+		LogUtil.d("city_selected_activity", "1");
+		startActivity(intent);
+		LogUtil.d("city_selected_activity", "2");
+		finish();
+		LogUtil.d("city_selected_activity", "3");
+		return;
+	}
 }
 private void initView() {
 	// TODO Auto-generated method stub
@@ -95,6 +128,7 @@ private void initView() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			LogUtil.d("currentLevel", currentLevel+"");
 			// TODO Auto-generated method stub
 			if(currentLevel==LEVEL_PROVINCE){
 				selectProvince=provinceList.get(position);
@@ -102,6 +136,14 @@ private void initView() {
 			}else if(currentLevel==LEVEL_CITY){
 				selectCity=cityList.get(position);
 				queryCounties();
+			}else if(currentLevel==LEVEL_COUNTY){
+				String countyCode=countyList.get(position).getCountyCode();
+				LogUtil.d("countyCode", countyCode);
+				Intent intent=new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+				intent.putExtra("county_code", countyCode);
+				startActivity(intent);
+				finish();
+				
 			}
 			
 		}
@@ -180,7 +222,9 @@ private void queryFromServer(final String code,final String type) {
 	}else{
 		address=address ="http://www.weather.com.cn/data/list3/city.xml";
 	}
-	showProgressDialog();
+	LogUtil.d("address", address);
+//	showProgressDialog();
+	ProgressDialogUtils.showProgressDialog(ChooseAreaActivity.this, "搬运数据中，客官请稍等！");
 	HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
 		
 		@Override
@@ -201,7 +245,8 @@ private void queryFromServer(final String code,final String type) {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-					closeProgressDialog();
+//					closeProgressDialog();
+						ProgressDialogUtils.dismissProgressDialog();
 						if("province".equals(type)){
 							queryProvinces();
 						}else if("city".equals(type)){
@@ -223,8 +268,9 @@ private void queryFromServer(final String code,final String type) {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					closeProgressDialog();
-					Toast.makeText(ChooseAreaActivity.this,
+//					closeProgressDialog();
+					ProgressDialogUtils.dismissProgressDialog();
+					Toast.makeText(MyApplication.getContext(),
 					"加载失败", Toast.LENGTH_SHORT).show();
 				}
 
@@ -265,7 +311,8 @@ public void onBackPressed() {
 		queryCites();
 	}else if(currentLevel==LEVEL_CITY){
 		queryProvinces();
-	}else{
+	}else {
+		
 		finish();
 	}
 }

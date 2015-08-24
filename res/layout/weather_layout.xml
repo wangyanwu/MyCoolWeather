@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#484E61"
+        android:gravity="center"
+        android:text="昆山"
+        android:textColor="#fff"
+        android:textSize="24sp" />
+
+    <RelativeLayout
+        android:id="@+id/weather_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/city_name"
+        android:background="#27A5F9" >
+
+        <TextView
+            android:id="@+id/publish_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="今天18:00发布"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/current_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/publish_text"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:text="2015年8月22日"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/weather_desp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/current_date"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="多云转雷阵雨"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/temp1"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/weather_desp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:text="15℃"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/separator"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/weather_desp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/temp1"
+            android:text="~"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/temp2"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/weather_desp"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@id/separator"
+            android:text="30℃"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
