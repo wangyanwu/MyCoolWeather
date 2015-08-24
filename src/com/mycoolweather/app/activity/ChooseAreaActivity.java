@@ -106,6 +106,7 @@ private void initWeather() {
 	isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
 	SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
 	LogUtil.d("city_selected", prefs.getBoolean("city_selected", false)+"");
+	// 已经选择了城市且不是从WeatherActivity跳转过来，才会直接跳转到WeatherActivity
 	if(prefs.getBoolean("city_selected", false)&&!isFromWeatherActivity){
 		Intent intent=new Intent(this,WeatherActivity.class);
 		LogUtil.d("city_selected_activity", "1");
@@ -311,10 +312,15 @@ public void onBackPressed() {
 		queryCites();
 	}else if(currentLevel==LEVEL_CITY){
 		queryProvinces();
-	}else {
+	}else 
+		{
+		if(isFromWeatherActivity){
+		Intent intent=new Intent(this, WeatherActivity.class);
+		startActivity(intent);
+	}
 		
 		finish();
-	}
+		}
 }
 
 }
