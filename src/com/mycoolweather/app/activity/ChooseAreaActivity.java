@@ -26,12 +26,10 @@ import java.util.List;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,7 +56,7 @@ public static final int LEVEL_PROVINCE=0;
 public static final int LEVEL_CITY=1;
 public static final int LEVEL_COUNTY=2;
 
-private ProgressDialog progressDialog;
+//private ProgressDialog progressDialog;
 private TextView titleText;
 private ListView listView;
 private ArrayAdapter<String> adapter;
@@ -221,7 +219,7 @@ private void queryFromServer(final String code,final String type) {
 		address = "http://www.weather.com.cn/data/list3/city" + code +
 				".xml";
 	}else{
-		address=address ="http://www.weather.com.cn/data/list3/city.xml";
+		address ="http://www.weather.com.cn/data/list3/city.xml";
 	}
 	LogUtil.d("address", address);
 //	showProgressDialog();
@@ -284,7 +282,7 @@ private void queryFromServer(final String code,final String type) {
 /**
 * 显示进度对话框
 */
-private void showProgressDialog() {
+/*private void showProgressDialog() {
 	// TODO Auto-generated method stub
 	if(progressDialog==null){
 		progressDialog=new ProgressDialog(this);
@@ -300,7 +298,7 @@ private void closeProgressDialog() {
 	{
 		progressDialog.dismiss();
 	}
-}
+}*/
 /**
 * 捕获Back按键，根据当前的级别来判断，此时应该返回市列表、省列表、还是直接退出。
 */

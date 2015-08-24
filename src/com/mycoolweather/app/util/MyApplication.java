@@ -10,7 +10,7 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		this.context=getApplicationContext();
+		context=getApplicationContext();
 	}
 	public static Context getContext(){
 		return context;
