@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 public class WeatherActivity extends Activity implements OnClickListener{
 
+	private static final String APPKEY="15051";
+	private static final String SIGN="29f9ef6e577c1ea2d37933a4804cc99a";
 	private RelativeLayout weatherInfoLayout;
 	/*
 	 * 用于显示城市名
@@ -113,7 +115,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		temp1Text.setText(prefs.getString("temp1", ""));
 		temp2Text.setText(prefs.getString("temp2", ""));
 		weatherDespText.setText(prefs.getString("weather_desp", ""));
-		publishText.setText("今天"+prefs.getString("publish_time", "")+"发布");
+		publishText.setText(prefs.getString("publish_time", "")+"发布");
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
@@ -152,7 +154,7 @@ public class WeatherActivity extends Activity implements OnClickListener{
 				}else if("weatherCode".equals(type)){
 					// 处理服务器返回的天气信息
 					LogUtil.d("type_weatherCode", type);
-					Utility.handleWeatherResponse(WeatherActivity.this, response);
+					Utility.handleWeatherResponseByAPI(WeatherActivity.this, response);
 					runOnUiThread(new Runnable() {
 						
 						@Override
@@ -184,8 +186,18 @@ public class WeatherActivity extends Activity implements OnClickListener{
 	* 查询天气代号所对应的天气。
 	*/
 	private void queryWeatherInfo(String weatherCode){
-		String address = "http://www.weather.com.cn/data/cityinfo/" +
-				weatherCode + ".html";
+		/*String address = "http://www.weather.com.cn/data/cityinfo/" +
+				weatherCode + ".html";*/
+		StringBuilder addressBuilder=new StringBuilder();
+		addressBuilder.append("http://api.k780.com:88/?app=weather.future&weaid=");
+		addressBuilder.append(weatherCode);
+		addressBuilder.append("&&appkey=");
+		addressBuilder.append(APPKEY);
+		addressBuilder.append("&sign=");
+		addressBuilder.append(SIGN);
+		addressBuilder.append("&format=json");
+		
+		String address=addressBuilder.toString();
 		LogUtil.d("address_weatherCode", address);
 		queryFromServer(address,"weatherCode");
 	}

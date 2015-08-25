@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+
 import com.mycoolweather.app.db.MyCoolWeatherDB;
 import com.mycoolweather.app.model.City;
 import com.mycoolweather.app.model.County;
@@ -109,11 +111,39 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
+	/*
+	 * 解析从api.k780.com返回的天气数据
+	 */
 	
 	/**
 	* 将服务器返回的所有天气信息存储到SharedPreferences文件中。
 	*/
-	
+	public static void handleWeatherResponseByAPI(Context context,String response){
+		LogUtil.d("handleWeatherResponse","handleWeatherResponse");
+		try {
+			JSONObject jsonObject=new JSONObject(response);
+			
+			JSONArray resultsArray = (JSONArray)jsonObject.getJSONArray("result");
+			JSONObject weatherInfo=(JSONObject) resultsArray.get(0);
+		
+			String cityName=weatherInfo.getString("citynm");
+			String weatherCode=weatherInfo.getString("cityid");
+			String temp1=weatherInfo.getString("temp_low");
+			String temp2=weatherInfo.getString("temp_high");
+			String weatherDesp=weatherInfo.getString("weather");
+			String publishTime=weatherInfo.getString("days");
+			LogUtil.d("cityName", cityName);
+			LogUtil.d("temp",temp1+"~"+temp2 );
+			saveWeatherInfo(context, cityName, weatherCode, temp1, temp2,
+					weatherDesp, publishTime);
+		} catch (JSONException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	/*
+	 * 保存天气信息到本地
+	 */
 	private static void saveWeatherInfo(Context context, String cityName,
 			String weatherCode, String temp1, String temp2, String weatherDesp,
 			String publishTime) {
