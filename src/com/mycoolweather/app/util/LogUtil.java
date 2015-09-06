@@ -9,7 +9,14 @@ public class LogUtil {
 	public static final int WARN = 4;
 	public static final int ERROR = 5;
 	public static final int NOTHING = 6;
-	public static final int LEVEL = VERBOSE;
+	public static final int LEVEL = NOTHING;
+	/*
+	 * 防止该类被默认构造航速实例化
+	 */
+	private LogUtil() {
+		throw new AssertionError();
+		// TODO Auto-generated constructor stub
+	}
 	public static void v(String tag,String msg){
 		if(LEVEL<=VERBOSE){
 			Log.v(tag, msg);

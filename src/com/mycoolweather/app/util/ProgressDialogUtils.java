@@ -11,6 +11,7 @@ public class ProgressDialogUtils {
 	 * @param context
 	 * @param message
 	 */
+	
 public static void showProgressDialog(Context context,String message){
 	if(mProgressDialog==null){
 		mProgressDialog=ProgressDialog.show(context, "", message);
@@ -18,6 +19,10 @@ public static void showProgressDialog(Context context,String message){
 		mProgressDialog.show();
 	}
 }
+private ProgressDialogUtils() {
+		throw new AssertionError();
+		// TODO Auto-generated constructor stub
+	}
 /**
  * ¹Ø±ÕProgressDialog
  */

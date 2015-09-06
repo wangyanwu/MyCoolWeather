@@ -7,6 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpUtil {
+	
+private  HttpUtil() {
+		throw new AssertionError();
+		// TODO Auto-generated constructor stub
+	}
+
 public static void sendHttpRequest(final String address,final HttpCallbackListener listener){
 	new Thread(new Runnable() {
 		

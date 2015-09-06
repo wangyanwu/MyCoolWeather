@@ -112,8 +112,8 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
 		cityNameText.setText(prefs.getString("city_name", ""));
-		temp1Text.setText(prefs.getString("temp1", ""));
-		temp2Text.setText(prefs.getString("temp2", ""));
+		temp1Text.setText(prefs.getString("temp1", "")+"¡æ");
+		temp2Text.setText(prefs.getString("temp2", "")+"¡æ");
 		weatherDespText.setText(prefs.getString("weather_desp", ""));
 		publishText.setText(prefs.getString("publish_time", "")+"·¢²¼");
 		currentDateText.setText(prefs.getString("current_date", ""));

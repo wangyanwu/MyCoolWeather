@@ -52,7 +52,7 @@ public class AutoUpdateService extends Service {
 			@Override
 			public void onFinish(String response) {
 				// TODO Auto-generated method stub
-				Utility.handleWeatherResponse(AutoUpdateService.this, response);
+				Utility.handleWeatherResponseByAPI(AutoUpdateService.this, response);
 			}
 			
 			@Override

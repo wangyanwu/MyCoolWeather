@@ -2,10 +2,20 @@ package com.mycoolweather.app.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+
+
+
+
+
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -13,12 +23,24 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mycoolweather.app.db.MyCoolWeatherDB;
 import com.mycoolweather.app.model.City;
 import com.mycoolweather.app.model.County;
 import com.mycoolweather.app.model.Province;
+import com.mycoolweather.app.model.WeatherInfo;
+
 
 public class Utility {
+	/*
+	 * 防治默认构造函数实例化这个对象。
+	 */
+	private  Utility() {
+		
+		throw new AssertionError();
+		// TODO Auto-generated constructor stub
+	}
 	/**
 	* 解析和处理服务器返回的省级数据
 	*/
@@ -95,7 +117,9 @@ public class Utility {
 		LogUtil.d("handleWeatherResponse","handleWeatherResponse");
 		try {
 			JSONObject jsonObject=new JSONObject(response);
+			
 			JSONObject weatherInfo=jsonObject.getJSONObject("weatherinfo");
+			
 			String cityName=weatherInfo.getString("city");
 			String weatherCode=weatherInfo.getString("cityid");
 			String temp1=weatherInfo.getString("temp1");
@@ -119,11 +143,21 @@ public class Utility {
 	* 将服务器返回的所有天气信息存储到SharedPreferences文件中。
 	*/
 	public static void handleWeatherResponseByAPI(Context context,String response){
-		LogUtil.d("handleWeatherResponse","handleWeatherResponse");
+		LogUtil.d("handleWeatherResponseByAPI","handleWeatherResponse");
 		try {
+//			JSONObject jsonObject=new JSONObject(response);
+			Gson gson = new Gson();
+			LogUtil.d("handleWeatherResponseByAPI","gson");
+//			List<WeatherInfo> weeks=gson.fromJson(response, new TypeToken<List<WeatherInfo>>()
+//					{}.getType());
+			LogUtil.d("handleWeatherResponseByAPI","gson1");
+//			LogUtil.d("weeks", weeks.toString());
 			JSONObject jsonObject=new JSONObject(response);
 			
 			JSONArray resultsArray = (JSONArray)jsonObject.getJSONArray("result");
+			List<WeatherInfo> weeks=gson.fromJson(resultsArray.toString(), new TypeToken<List<WeatherInfo>>()
+					{}.getType());
+			LogUtil.d("weeks", weeks.toString());
 			JSONObject weatherInfo=(JSONObject) resultsArray.get(0);
 		
 			String cityName=weatherInfo.getString("citynm");
